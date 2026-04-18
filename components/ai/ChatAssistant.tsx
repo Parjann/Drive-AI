@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Send } from "lucide-react";
 
-export const ChatAssistant = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface ChatAssistantProps {
+  isOpen: boolean;
+  setIsOpen: (val: boolean) => void;
+}
+
+export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen }) => {
   const [input, setInput] = useState("");
 
   return (

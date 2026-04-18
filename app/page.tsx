@@ -15,9 +15,10 @@ export default function Home() {
   const [currency, setCurrency] = useState<'INR' | 'USD'>('INR');
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [selectedCarsToCompare, setSelectedCarsToCompare] = useState<string[]>([]);
-  const [bookingPrefill, setBookingPrefill] = useState<{car?: string; date?: string; city?: string}>({});
+  const [bookingPrefill, setBookingPrefill] = useState<{ car?: string; date?: string; city?: string }>({});
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
-  const filteredCars = activeFilter 
+  const filteredCars = activeFilter
     ? CARS.filter(c => c.type.toLowerCase() === activeFilter.toLowerCase())
     : CARS;
 
@@ -44,20 +45,20 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white selection:bg-zinc-900 selection:text-white">
       <Navbar />
-      
+
       {/* Structural Order Requested by User */}
-      <Hero />
+      <Hero onOpenChat={() => setIsChatOpen(true)} />
       <Models cars={filteredCars} currency={currency} onBook={handleBook} />
       <Compare cars={CARS} currency={currency} selectedIds={selectedCarsToCompare} />
       <Booking preFill={bookingPrefill} />
       <Contact />
-      
+
       {/* Floating Elements */}
-      <ChatAssistant />
-      
+      <ChatAssistant isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
+
       {/* Footer */}
       <footer className="bg-zinc-950 text-zinc-500 py-8 text-center text-sm font-light">
-        <p>© 2026 DriveAI by The DeepMind AI Coding Assistant. All rights reserved.</p>
+        <p>© 2026 DriveAI.All rights reserved.</p>
       </footer>
     </main>
   );

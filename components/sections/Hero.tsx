@@ -2,7 +2,11 @@ import React from "react";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
 
-export const Hero = () => {
+interface HeroProps {
+  onOpenChat: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onOpenChat }) => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-950">
       <motion.div 
@@ -12,7 +16,7 @@ export const Hero = () => {
         className="absolute inset-0 w-full h-full"
       >
         <img 
-          src="https://images.unsplash.com/photo-1614200187524-706782559cc8?q=80&w=3000&auto=format&fit=crop" 
+          src="/images/hero-bg.png" 
           alt="Luxury Car" 
           className="w-full h-full object-cover opacity-50"
         />
@@ -46,10 +50,10 @@ export const Hero = () => {
           transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
           className="flex flex-col sm:flex-row gap-5 justify-center items-center"
         >
-          <Button size="lg" className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-full px-8 h-14 text-lg w-full sm:w-auto">
+          <Button onClick={() => document.getElementById('models')?.scrollIntoView({ behavior: 'smooth' })} size="lg" className="bg-white text-zinc-950 hover:bg-zinc-200 rounded-full px-8 h-14 text-lg w-full sm:w-auto">
             View Collection
           </Button>
-          <Button size="lg" variant="outline" className="border-zinc-700 bg-zinc-900/30 text-white hover:bg-zinc-800 hover:text-white backdrop-blur-md rounded-full px-8 h-14 text-lg w-full sm:w-auto">
+          <Button onClick={onOpenChat} size="lg" variant="outline" className="border-zinc-700 bg-zinc-900/30 text-white hover:bg-zinc-800 hover:text-white backdrop-blur-md rounded-full px-8 h-14 text-lg w-full sm:w-auto">
             Talk to AI Assistant
           </Button>
         </motion.div>
