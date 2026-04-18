@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DriveAI — Project Documentation
 
-## Getting Started
+## 📌 Overview
+DriveAI is a single-page car dealership website powered by an AI assistant.
+Unlike a normal chatbot, the AI:
+- Understands user queries
+- Converts them into structured actions
+- Dynamically updates the UI
+- Navigates the page automatically
 
-First, run the development server:
+👉 The goal is to create a “conversation-driven website”, not just a UI.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🎯 Objective
+Build a system where:
+`User Query → AI → JSON Action → UI Updates`
+
+**Example:**
+User: “Show SUVs under 20 lakhs”
+System: Scrolls to models → Filters SUVs → Updates UI → Shows response
+
+## 🧠 Core Concept
+This project is based on: **AI as a UI Controller**
+Instead of: user clicking buttons ❌
+We allow: user talking to AI ✅
+
+## 🏗️ Architecture
+Frontend (Next.js UI)
+   ↓
+API Route (/api/ai)
+   ↓
+AI (Groq / OpenAI)
+   ↓
+JSON Response
+   ↓
+UI Updates
+
+## ⚙️ Tech Stack
+- **Next.js** — frontend + backend
+- **Tailwind CSS** — styling
+- **Groq API** — AI processing
+- **Vercel** — deployment
+
+## 🧩 Features
+1. **Hero Section**
+   - Brand intro
+   - CTA
+2. **Car Models Section**
+   - Displays 4–6 cars
+   - Shows: name, type (SUV, Sedan), price, seats
+3. **AI Assistant (Core Feature)**
+   - Floating assistant that accepts user input, processes queries, and triggers UI actions
+4. **Comparison Section**
+   - Compare 2 cars dynamically
+5. **Booking Form**
+   - Pre-filled using AI
+   - Example: model, date, city
+6. **Pricing System**
+   - Currency switching (INR ↔ USD)
+
+## 🧠 AI Query System
+The AI converts natural language into structured JSON.
+
+**Example 1 — Filter**
+```json
+{
+  "action": "FILTER",
+  "type": "SUV",
+  "price": 2000000
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Example 2 — Compare**
+```json
+{
+  "action": "COMPARE",
+  "cars": ["DriveX Pro", "DriveX Max"]
+}
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Example 3 — Booking**
+```json
+{
+  "action": "BOOK",
+  "car": "DriveX Pro",
+  "date": "Saturday",
+  "city": "Kochi"
+}
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Example 4 — Navigation**
+```json
+{
+  "action": "NAVIGATE",
+  "section": "features"
+}
+```
 
-## Learn More
+## 🔁 Data Flow
+1. User enters query
+2. Frontend sends request → `/api/ai`
+3. API calls AI
+4. AI returns JSON
+5. Frontend: updates state, scrolls, updates UI
 
-To learn more about Next.js, take a look at the following resources:
+## 🧱 Component Design
+- **Controller**: `page.tsx` → handles all AI actions
+- **Sections**: Hero, Models, Compare, Booking, Contact
+- **UI Components**: CarCard, Button, Input
+- **AI Layer**: ChatAssistant, AI API route
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔥 Key Functional Requirements
+The system must support at least 6 query types:
+✅ 1. Filter Cars (“Show SUVs under 20 lakhs”)
+✅ 2. Compare Cars (“Compare top 2 models”)
+✅ 3. Book Test Drive (“Book test drive Saturday Kochi”)
+✅ 4. Recommendation (“Best car for family of 5”)
+✅ 5. Currency Change (“Show price in dollars”)
+✅ 6. Navigation (“Go to features section”)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎨 UI Behavior Rules
+Each AI query must:
+- Scroll to relevant section
+- Update UI dynamically
+- Show response
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+👉 If not → project fails evaluation
