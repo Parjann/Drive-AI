@@ -3,17 +3,17 @@ export type CarType = 'SUV' | 'Sedan' | 'Hatchback' | 'Coupe' | 'EV';
 export interface CarSpecs {
   engine: string;
   power: string;
-  powerValue: number; // for comparison
+  powerValue: number;
   torque: string;
-  torqueValue: number; // for comparison
+  torqueValue: number;
   transmission: string;
   driveType: string;
   mileage: string;
-  mileageValue: number; // for comparison
+  mileageValue: number;
   acceleration: string;
-  accelerationValue: number; // for comparison
+  accelerationValue: number;
   bootSpace: string;
-  bootSpaceValue: number; // for comparison
+  bootSpaceValue: number;
   infotainment: string;
   safetyRating: number;
   colors: string[];
@@ -23,7 +23,7 @@ export interface Car {
   id: string;
   name: string;
   type: CarType;
-  price: number; 
+  price: number;
   seats: number;
   image: string;
   compareImage: string;
@@ -44,5 +44,5 @@ export interface AIAction {
   time?: string;
   city?: string;
   section?: string;
-  currency?: 'INR'|'USD';
+  currency?: 'INR' | 'USD';
 }
