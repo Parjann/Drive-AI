@@ -25,8 +25,8 @@ export const Booking: React.FC<BookingFormProps> = ({ preFill, onReset }) => {
   };
 
   return (
-    <SectionWrapper id="booking" className="bg-zinc-50 py-32">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+    <SectionWrapper id="booking" className="bg-zinc-50 py-32 overflow-hidden">
+      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-center px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -106,7 +106,7 @@ export const Booking: React.FC<BookingFormProps> = ({ preFill, onReset }) => {
                       />
                     </div>
 
-                    <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4">
                       <div className="flex-1 space-y-3">
                         <label className="text-sm font-semibold text-zinc-700 tracking-wide">Date</label>
                         <input

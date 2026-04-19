@@ -19,16 +19,16 @@ export const Models: React.FC<ModelsProps> = ({ cars, currency, onBook, onCompar
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center max-w-3xl mx-auto mb-20"
+        className="text-center max-w-3xl mx-auto mb-20 px-4"
       >
         <span className="text-zinc-500 font-medium tracking-widest uppercase text-sm mb-4 block">Collection</span>
-        <h2 className="text-5xl md:text-6xl font-bold font-heading text-zinc-900 mb-6 tracking-tight">Our Fleet</h2>
+        <h2 className="text-5xl md:text-6xl font-bold font-heading text-zinc-900 mb-6 tracking-tight px-4 break-words">Our Fleet</h2>
         <p className="text-xl text-zinc-500 leading-relaxed font-light">
           Masterpieces of engineering. Designed for those who demand more than just transportation.
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-4 md:px-8 max-w-[1400px] mx-auto">
         {cars.map((car) => (
           <CarCard 
             key={car.id} 

@@ -72,7 +72,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen,
 
   return (
     <>
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50">
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -80,7 +80,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen,
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="absolute bottom-20 right-0 w-[350px] sm:w-[400px] bg-white rounded-3xl shadow-2xl border border-zinc-100 overflow-hidden flex flex-col"
+              className="fixed bottom-24 right-4 left-4 sm:absolute sm:bottom-20 sm:right-0 sm:left-auto w-auto sm:w-[400px] max-h-[80vh] bg-white rounded-3xl shadow-2xl border border-zinc-100 overflow-hidden flex flex-col z-[100]"
             >
               {/* Header */}
               <div className="bg-zinc-950 p-5 flex items-center justify-between">

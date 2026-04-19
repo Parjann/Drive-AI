@@ -40,7 +40,7 @@ export const Compare: React.FC<CompareProps> = ({ cars, currency, selectedIds = 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center max-w-3xl mx-auto mb-16"
+        className="text-center max-w-3xl mx-auto mb-16 px-4 md:px-8"
       >
         <h2 className="text-4xl md:text-5xl font-bold font-heading text-white mb-4 tracking-tight">
           Compare <span className="text-blue-500">Top Models</span>
@@ -50,7 +50,7 @@ export const Compare: React.FC<CompareProps> = ({ cars, currency, selectedIds = 
         </p>
       </motion.div>
 
-      <div className="max-w-[1200px] mx-auto overflow-hidden px-4 md:px-0">
+      <div className="max-w-[1200px] mx-auto overflow-hidden px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -63,7 +63,7 @@ export const Compare: React.FC<CompareProps> = ({ cars, currency, selectedIds = 
                 <tr className="border-b border-zinc-800">
                   <th className="p-4 md:p-8 border-r border-zinc-800 bg-[#13151a] w-[25%] align-top">
                     <div className="flex items-center gap-2 text-blue-500 font-bold tracking-widest uppercase text-xs md:text-sm mt-4 md:mt-8">
-                      <GitMerge className="w-4 h-4 md:w-5 md:h-5" /> <span className="hidden md:inline">FEATURES</span>
+                      <GitMerge className="w-4 h-4 md:w-5 md:h-5" /> <span>FEATURES</span>
                     </div>
                   </th>
                   {compareSlots.map((car, index) => (

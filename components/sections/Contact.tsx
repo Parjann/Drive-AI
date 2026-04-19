@@ -11,8 +11,8 @@ export const Contact = () => {
 
   return (
     <SectionWrapper id="contact" className="bg-white py-32 border-t border-zinc-100">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+      <div className="max-w-6xl mx-auto px-4 md:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-16 px-4">
           <span className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4 block">Get In Touch</span>
           <h2 className="text-4xl md:text-5xl font-bold font-heading text-zinc-900 mb-6 tracking-tight">Contact Details</h2>
           <p className="text-lg text-zinc-500 font-light">
@@ -55,7 +55,7 @@ export const Contact = () => {
         </div>
 
         {/* Newsletter Box */}
-        <div className="bg-zinc-950 rounded-3xl p-10 max-w-4xl mx-auto overflow-hidden relative min-h-[160px] flex items-center justify-center">
+        <div className="bg-zinc-950 rounded-3xl p-6 sm:p-10 max-w-4xl mx-auto overflow-hidden relative min-h-[160px] flex items-center justify-center">
           <AnimatePresence mode="wait">
             {isSubscribed ? (
               <motion.div 
@@ -85,15 +85,17 @@ export const Contact = () => {
                 </div>
                 <form 
                   onSubmit={(e) => { e.preventDefault(); setIsSubscribed(true); }} 
-                  className="flex w-full md:max-w-md gap-3"
+                  className="flex flex-col sm:flex-row w-full md:max-w-md gap-3 mt-4 md:mt-0"
                 >
                   <input 
                     type="email" 
                     placeholder="Enter your email address" 
-                    className="flex-1 h-12 px-5 rounded-xl border border-zinc-800 bg-zinc-900 text-white placeholder-zinc-500 focus:bg-[#1a1c23] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-inner"
+                    className="w-full h-14 px-5 rounded-xl border border-zinc-700 bg-zinc-800/50 text-white placeholder-zinc-400 focus:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-inner appearance-none"
                     required
                   />
-                  <Button type="submit" className="h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white border-none shrink-0">Subscribe</Button>
+                  <Button type="submit" className="w-full sm:w-auto h-14 px-8 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold tracking-wide border-none shrink-0 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-950">
+                    Subscribe
+                  </Button>
                 </form>
               </motion.div>
             )}

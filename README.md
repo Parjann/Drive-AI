@@ -15,7 +15,7 @@ Build a system where:
 `User Query → AI → JSON Action → UI Updates`
 
 **Example:**
-User: “Show SUVs under 20 lakhs”
+User: “Show SUVs under 3 crore”
 System: Scrolls to models → Filters SUVs → Updates UI → Shows response
 
 ## 🧠 Core Concept
@@ -28,7 +28,7 @@ Frontend (Next.js UI)
    ↓
 API Route (/api/ai)
    ↓
-AI (Groq / OpenAI)
+AI (Groq)
    ↓
 JSON Response
    ↓
@@ -110,7 +110,7 @@ The AI converts natural language into structured JSON.
 
 ## 🔥 Key Functional Requirements
 The system must support at least 6 query types:
-✅ 1. Filter Cars (“Show SUVs under 20 lakhs”)
+✅ 1. Filter Cars (“Show SUVs under 3 crore”)
 ✅ 2. Compare Cars (“Compare top 2 models”)
 ✅ 3. Book Test Drive (“Book test drive Saturday Kochi”)
 ✅ 4. Recommendation (“Best car for family of 5”)
