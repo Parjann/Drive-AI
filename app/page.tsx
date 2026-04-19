@@ -17,7 +17,7 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [selectedCarsToCompare, setSelectedCarsToCompare] = useState<string[]>([]);
-  const [bookingPrefill, setBookingPrefill] = useState<{ car?: string; date?: string; city?: string }>({});
+  const [bookingPrefill, setBookingPrefill] = useState<{ car?: string; date?: string; time?: string; city?: string }>({});
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const filteredCars = CARS.filter(c => {
@@ -84,6 +84,7 @@ export default function Home() {
       setBookingPrefill({
         car: payload.car,
         date: payload.date,
+        time: payload.time,
         city: payload.city
       });
       setTimeout(() => scrollToAndHighlight('booking'), 100);
@@ -96,9 +97,21 @@ export default function Home() {
 
       {/* Structural Order Requested by User */}
       <Hero onOpenChat={() => setIsChatOpen(true)} />
-      <Models cars={filteredCars} currency={currency} onBook={handleBook} />
-      <Compare cars={CARS} currency={currency} selectedIds={selectedCarsToCompare} />
-      <Booking preFill={bookingPrefill} />
+      <Models cars={filteredCars} currency={currency} onBook={handleBook} onCompare={handleCompare} />
+      <Compare 
+        cars={CARS} 
+        currency={currency} 
+        selectedIds={selectedCarsToCompare} 
+        onCarChange={(index, id) => {
+          setSelectedCarsToCompare(prev => {
+            const next = prev.length ? [...prev] : [CARS[0].id, CARS[1].id];
+            next[index] = id;
+            return next;
+          });
+        }}
+        onBook={handleBook}
+      />
+      <Booking preFill={bookingPrefill} onReset={() => setBookingPrefill({})} />
       <Contact />
 
       {/* Floating Elements */}

@@ -73,7 +73,7 @@ The AI converts natural language into structured JSON.
 ```json
 {
   "action": "COMPARE",
-  "cars": ["DriveX Pro", "DriveX Max"]
+  "cars": ["Porsche Cayenne", "Range Rover"]
 }
 ```
 
@@ -81,7 +81,7 @@ The AI converts natural language into structured JSON.
 ```json
 {
   "action": "BOOK",
-  "car": "DriveX Pro",
+  "car": "Porsche Cayenne",
   "date": "Saturday",
   "city": "Kochi"
 }

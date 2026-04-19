@@ -1,22 +1,103 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { Button } from "@/components/ui/Button";
+import { Phone, Mail, MapPin, CheckCircle2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Contact = () => {
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
   return (
-    <SectionWrapper id="contact" className="bg-white py-24 border-t border-zinc-100">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl font-bold font-heading text-zinc-900 mb-6">Stay Connected</h2>
-        <p className="text-lg text-zinc-500 mb-8 font-light">
-          Subscribe to our newsletter for the latest updates on our next-gen vehicles.
-        </p>
-        <div className="flex max-w-md mx-auto gap-3">
-          <input 
-            type="email" 
-            placeholder="Enter your email" 
-            className="flex-1 h-12 px-5 rounded-xl border border-zinc-200 bg-zinc-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-zinc-900 transition-all shadow-sm"
-          />
-          <Button className="h-12 px-6 rounded-xl">Subscribe</Button>
+    <SectionWrapper id="contact" className="bg-white py-32 border-t border-zinc-100">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4 block">Get In Touch</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-heading text-zinc-900 mb-6 tracking-tight">Contact Details</h2>
+          <p className="text-lg text-zinc-500 font-light">
+            We are here to assist you with every step of your journey. Reach out to our concierge or visit our flagship showroom.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+          {/* Card 1: Address */}
+          <div className="bg-zinc-50 rounded-2xl p-8 flex flex-col items-center text-center border border-zinc-100 hover:border-zinc-200 transition-colors">
+            <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 text-zinc-900">
+              <MapPin className="w-6 h-6" />
+            </div>
+            <h4 className="text-xl font-bold text-zinc-900 mb-2">Showroom Location</h4>
+            <p className="text-zinc-500">
+              120 Premium Auto Boulevard<br />
+              Cyber Hub, New Delhi 110021
+            </p>
+          </div>
+
+          {/* Card 2: Phone */}
+          <div className="bg-zinc-50 rounded-2xl p-8 flex flex-col items-center text-center border border-zinc-100 hover:border-zinc-200 transition-colors">
+            <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 text-zinc-900">
+              <Phone className="w-6 h-6" />
+            </div>
+            <h4 className="text-xl font-bold text-zinc-900 mb-2">Phone Support</h4>
+            <p className="text-zinc-500 mb-1">Sales: +91 98765 43210</p>
+            <p className="text-zinc-500">Service: +91 98765 00000</p>
+          </div>
+
+          {/* Card 3: Mail */}
+          <div className="bg-zinc-50 rounded-2xl p-8 flex flex-col items-center text-center border border-zinc-100 hover:border-zinc-200 transition-colors">
+            <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 text-zinc-900">
+              <Mail className="w-6 h-6" />
+            </div>
+            <h4 className="text-xl font-bold text-zinc-900 mb-2">Email Address</h4>
+            <p className="text-zinc-500 mb-1">concierge@driveai.com</p>
+            <p className="text-zinc-500">support@driveai.com</p>
+          </div>
+        </div>
+
+        {/* Newsletter Box */}
+        <div className="bg-zinc-950 rounded-3xl p-10 max-w-4xl mx-auto overflow-hidden relative min-h-[160px] flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            {isSubscribed ? (
+              <motion.div 
+                key="success"
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: -10 }}
+                className="flex flex-col items-center justify-center text-center w-full"
+              >
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+                  <h4 className="text-2xl font-bold text-white">You're on the list!</h4>
+                </div>
+                <p className="text-zinc-400">Thank you for subscribing. Keep an eye on your inbox.</p>
+              </motion.div>
+            ) : (
+              <motion.div 
+                key="form"
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
+                className="flex flex-col md:flex-row items-center justify-between gap-8 w-full"
+              >
+                <div className="text-center md:text-left">
+                  <h4 className="text-2xl font-bold text-white mb-2">Join our newsletter</h4>
+                  <p className="text-zinc-400">Receive early access to exclusive models and private track events.</p>
+                </div>
+                <form 
+                  onSubmit={(e) => { e.preventDefault(); setIsSubscribed(true); }} 
+                  className="flex w-full md:max-w-md gap-3"
+                >
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email address" 
+                    className="flex-1 h-12 px-5 rounded-xl border border-zinc-800 bg-zinc-900 text-white placeholder-zinc-500 focus:bg-[#1a1c23] focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-inner"
+                    required
+                  />
+                  <Button type="submit" className="h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white border-none shrink-0">Subscribe</Button>
+                </form>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </SectionWrapper>

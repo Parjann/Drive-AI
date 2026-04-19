@@ -19,11 +19,16 @@ Your JSON must follow this exact format:
 
 Available Data Context:
 Cars: ${CARS.map(c => `[${c.id}] ${c.name} (${c.type}, ${c.price} INR)`).join(', ')}
+Current Date/Time Baseline: {CURRENT_DATE}
 
 Action Rules:
 1. "FILTER": Include "type" (e.g., "SUV") or "price" (number). Example: {"action": "FILTER", "type": "SUV", "message": "Showing all SUVs."}
-2. "COMPARE": Include "cars" (array of exactly 2 car names/ids). Example: {"action": "COMPARE", "cars": ["drivex-pro", "aero-sedan"], "message": "Comparing the two models."}
-3. "BOOK": Include "car", "date", "city" if provided. Example: {"action": "BOOK", "car": "DriveX Pro", "city": "Kochi", "message": "Booking prepared."}
+2. "COMPARE": Include "cars" (array of exactly 2 car names/ids). Example: {"action": "COMPARE", "cars": ["porsche-cayenne", "mercedes-s-class"], "message": "Comparing the two models."}
+3. "BOOK": 
+   - Parse user's desired date into strict "YYYY-MM-DD" format in the "date" field.
+   - Parse user's desired time into strict "hh:mm A" (12-hour format, e.g., "03:00 PM") in the "time" field.
+   - Include "car" and "city" if provided. 
+   Example: {"action": "BOOK", "car": "Porsche Cayenne", "city": "Kochi", "date": "2026-05-20", "time": "03:00 PM", "message": "Booking prepared."}
 4. "NAVIGATE": Include "section" ("hero", "models", "compare", "booking", "contact"). Example: {"action": "NAVIGATE", "section": "booking", "message": "Taking you there."}
 5. "CURRENCY": Include "currency" ("INR" or "USD"). Example: {"action": "CURRENCY", "currency": "USD", "message": "Prices updated to USD."}
 6. "RECOMMEND": Similar to filter, or just setting a message if giving general advice.
@@ -40,9 +45,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Query is required" }, { status: 400 });
     }
 
+    const todayDateStr = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    const dynamicPrompt = SYSTEM_PROMPT.replace('{CURRENT_DATE}', todayDateStr);
+
     const completion = await groq.chat.completions.create({
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: dynamicPrompt },
         { role: 'user', content: query }
       ],
       model: 'llama-3.3-70b-versatile',

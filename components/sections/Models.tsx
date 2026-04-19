@@ -8,9 +8,10 @@ interface ModelsProps {
   cars: Car[];
   currency: 'INR' | 'USD';
   onBook: (carId: string) => void;
+  onCompare: (carId: string) => void;
 }
 
-export const Models: React.FC<ModelsProps> = ({ cars, currency, onBook }) => {
+export const Models: React.FC<ModelsProps> = ({ cars, currency, onBook, onCompare }) => {
   return (
     <SectionWrapper id="models" className="bg-zinc-50 py-32">
       <motion.div 
@@ -34,6 +35,7 @@ export const Models: React.FC<ModelsProps> = ({ cars, currency, onBook }) => {
             car={car} 
             currency={currency}
             onBook={onBook}
+            onCompare={onCompare}
           />
         ))}
       </div>

@@ -17,6 +17,7 @@ export const Navbar = () => {
           <a href="#models" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Models</a>
           <a href="#compare" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Compare</a>
           <a href="#booking" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Test Drive</a>
+          <a href="#contact" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Contact</a>
         </div>
       </div>
     </nav>
