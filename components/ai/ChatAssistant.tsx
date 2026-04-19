@@ -1,14 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Send } from "lucide-react";
+import { MessageSquare, X, Send, Loader2 } from "lucide-react";
+import { AIAction } from "@/types";
+
+interface Message {
+  id: string;
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
 
 interface ChatAssistantProps {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
+  onAction: (payload: AIAction) => void;
 }
 
-export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen }) => {
+export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen, onAction }) => {
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 'initial-msg',
+      role: 'assistant',
+      content: 'Hello! I\'m your DriveAI assistant. You don\'t have to click around—just ask me to do it. Try saying "Show SUVs under 20 lakhs" or "Compare DriveX Pro and Aero Sedan".'
+    }
+  ]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
+
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return;
+    
+    const userQ = input.trim();
+    setInput("");
+    
+    const newMsg: Message = { id: Date.now().toString(), role: 'user', content: userQ };
+    setMessages(prev => [...prev, newMsg]);
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query: userQ })
+      });
+      
+      const payload: AIAction = await res.json();
+      
+      if (payload.message) {
+        setMessages(prev => [...prev, { id: Date.now().toString() + "-ai", role: 'assistant', content: payload.message }]);
+      } else {
+        setMessages(prev => [...prev, { id: Date.now().toString() + "-ai", role: 'assistant', content: "Action completed." }]);
+      }
+
+      onAction(payload);
+    } catch (e) {
+      console.error(e);
+      setMessages(prev => [...prev, { id: Date.now().toString() + "-err", role: 'system', content: "Network error calling AI API." }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -20,13 +80,13 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen 
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="absolute bottom-20 right-0 w-[350px] bg-white rounded-3xl shadow-2xl border border-zinc-100 overflow-hidden flex flex-col"
+              className="absolute bottom-20 right-0 w-[350px] sm:w-[400px] bg-white rounded-3xl shadow-2xl border border-zinc-100 overflow-hidden flex flex-col"
             >
               {/* Header */}
               <div className="bg-zinc-950 p-5 flex items-center justify-between">
                 <div>
                   <h4 className="text-white font-medium">DriveAI Assistant</h4>
-                  <p className="text-zinc-400 text-xs">Always ready to command the UI</p>
+                  <p className="text-zinc-400 text-xs">Powered by Groq</p>
                 </div>
                 <button 
                   onClick={() => setIsOpen(false)}
@@ -37,11 +97,26 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen 
               </div>
 
               {/* Chat Area */}
-              <div className="h-[300px] bg-zinc-50 p-5 flex flex-col gap-4 overflow-y-auto">
-                <div className="bg-white p-4 rounded-2xl rounded-tl-sm shadow-sm text-sm text-zinc-700 border border-zinc-100 self-start max-w-[85%]">
-                  Hello! I'm your DriveAI assistant. You don't have to click around—just ask me to do it. Try saying <strong>"Show SUVs under 20 lakhs"</strong> or <strong>"Compare DriveX Pro and Aero Sedan"</strong>.
-                </div>
-                {/* Dynamically injected messages will go here */}
+              <div ref={scrollRef} className="h-[350px] bg-zinc-50 p-5 flex flex-col gap-4 overflow-y-auto">
+                {messages.map((msg) => (
+                  <div 
+                    key={msg.id} 
+                    className={`p-4 rounded-2xl shadow-sm text-sm border ${
+                      msg.role === 'user' 
+                        ? 'bg-zinc-900 text-white border-zinc-800 self-end rounded-tr-sm max-w-[85%]' 
+                        : msg.role === 'system'
+                        ? 'bg-red-50 text-red-600 border-red-100 self-center max-w-full text-center'
+                        : 'bg-white text-zinc-700 border-zinc-100 self-start rounded-tl-sm max-w-[85%]'
+                    }`}
+                  >
+                    {msg.content}
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="bg-white p-4 rounded-2xl rounded-tl-sm shadow-sm border border-zinc-100 self-start">
+                    <Loader2 className="w-4 h-4 animate-spin text-zinc-400" />
+                  </div>
+                )}
               </div>
 
               {/* Input Area */}
@@ -51,10 +126,15 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isOpen, setIsOpen 
                     type="text" 
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                     placeholder="Ask me anything..."
-                    className="w-full h-12 pl-4 pr-12 rounded-xl bg-zinc-100 border-none focus:ring-2 focus:ring-zinc-900/10 text-sm transition-all"
+                    className="w-full h-12 pl-4 pr-12 rounded-xl bg-zinc-100 border-none focus:ring-2 focus:ring-zinc-900/10 text-sm transition-all outline-none"
                   />
-                  <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center hover:bg-zinc-800 transition-colors">
+                  <button 
+                    onClick={handleSend}
+                    disabled={isLoading}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center hover:bg-zinc-800 transition-colors disabled:opacity-50"
+                  >
                     <Send className="w-4 h-4 ml-0.5" />
                   </button>
                 </div>

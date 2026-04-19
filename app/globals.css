@@ -10,3 +10,15 @@
     scroll-behavior: smooth;
   }
 }
+
+@keyframes flash {
+  0% { box-shadow: 0 0 0 0px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 0 40px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0px rgba(59, 130, 246, 0); }
+}
+
+.flash-highlight {
+  animation: flash 1s ease-out;
+  position: relative;
+  z-index: 10;
+}
