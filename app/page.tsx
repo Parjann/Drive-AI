@@ -8,6 +8,7 @@ import { Compare } from "@/components/sections/Compare";
 import { Booking } from "@/components/sections/Booking";
 import { Contact } from "@/components/sections/Contact";
 import { ChatAssistant } from "@/components/ai/ChatAssistant";
+import { Footer } from "@/components/layout/Footer";
 import { CARS } from "@/data/cars";
 import { AIAction } from "@/types";
 
@@ -118,9 +119,7 @@ export default function Home() {
       <ChatAssistant isOpen={isChatOpen} setIsOpen={setIsChatOpen} onAction={handleAIAction} />
 
       {/* Footer */}
-      <footer className="bg-zinc-950 text-zinc-500 py-8 text-center text-sm font-light">
-        <p>© 2026 DriveAI.All rights reserved.</p>
-      </footer>
+      <Footer />
     </main>
   );
 }
